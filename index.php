@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 	$arrInputtedGraph = array();
 	$arrNodes = array();
@@ -41,9 +42,8 @@
 		}
 		
 		if($maxColumn != 2) {
-			$arrError[] = "Invalid set inputted";
-			dumpGraph($arrInputtedGraph);
-			exit();		
+			$arrError[] = "Invalid sets inputted";
+			$_POST['graph'] = '';		
 		} else {
 			foreach($arrInputtedGraph as $row => $line) {
 				foreach($line as $column => $value) {
@@ -98,7 +98,6 @@
 		}
 	}
 ?>
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta name="description" content="This is a simple test of the Adjacency List and Matrix" />
@@ -113,11 +112,33 @@
 		
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-29594513-10', 'auto');
+		  ga('send', 'pageview');
+		
+		</script>
 		
 		<title>CS312: Adjacency List and Matrix</title>
 	</head>
 	<body>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+				<a class="navbar-brand" href="/">Adjacency List and Matrix</a>
+				<ul class="nav navbar-nav">
+					<li><a href="/terms.php">Term of Use</a></li>
+					<li><a href="https://github.com/drthomas21/CS312">Fork On GitHub</a></li>
+				</ul>
+			</div><!-- /.container-fluid -->
+		</nav>
 		<div class="container">
+			<h1>CS312: Adjacency List and Matrix</h1>
 			<?php if(!empty($arrMatrix)): ?>
 			<section class="col-xs-12" id="matrix">
 				<h2>Matrix</h2>
@@ -174,13 +195,18 @@
 			<?php endif; ?>
 			
 			<form method="POST">
+				<?php if(!empty($arrError)): ?>
+					<div class="alert alert-danger" role="alert"><?php echo implode('<br />',$arrError); ?></div>
+				<?php endif; ?>
+				
 				<div class="col-xs-12">
-					<label for="graph" class="col-xs-12">Input Graph</label>
-					<textarea class="col-xs-12" name="graph" id="graph"><?php print_r($_POST['graph']); ?></textarea>
+					<label for="graph" class="col-xs-12">Input Sets</label>
+					<textarea class="col-xs-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
 				</div>
 				<div class="col-xs-12">&nbsp;</div>
 				<div class="col-xs-12">
 					<input type="submit" class="btn btn-primary pull-right" />
+					<span class="help-block">Sample:<br />A B<br />C D</span> 
 				</div>
 			</form>
 		</div>		
