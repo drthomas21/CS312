@@ -111,6 +111,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 		
 		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -121,24 +122,40 @@
 		  ga('create', 'UA-29594513-10', 'auto');
 		  ga('send', 'pageview');
 		
+		<script>
+			$(document).ready(function() {
+				$('#tabs a[href="#changelog"]').click(function (e) {
+					e.preventDefault()
+					$("#changelog").tab('show')
+				});
+
+				$('#tabs a[href="#about"]').click(function (e) {
+                                        e.preventDefault()
+                                        $("#about").tab('show')
+                                });
+
+				$('#tabs a[href="#terms"]').click(function (e) {
+                                        e.preventDefault()
+                                        $("#terms").tab('show')
+                                });
+			});
 		</script>
 		
 		<title>CS312: Adjacency List and Matrix</title>
 	</head>
-	<body>
+	<body style="padding-bottom: 40px">
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
 		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
 				<a class="navbar-brand" href="/">Adjacency List and Matrix</a>
 				<ul class="nav navbar-nav">
-					<li><a href="/terms.php">Term of Use</a></li>
 					<li><a href="https://github.com/drthomas21/CS312">Fork On GitHub</a></li>
 				</ul>
 			</div><!-- /.container-fluid -->
 		</nav>
-		<div class="container">
-			<h1>CS312: Adjacency List and Matrix</h1>
+		<div class="container-fluid">
+			<h1 class="page-header">CS312: Adjacency List and Matrix</h1>
 			<?php if(!empty($arrMatrix)): ?>
 			<section class="col-xs-12" id="matrix">
 				<h2>Matrix</h2>
@@ -162,7 +179,7 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrNodes)): ?>
-			<section class="col-xs-4" id="nodes">
+			<section class="col-xs-2" id="nodes">
 				<h2>Nodes</h2>
 				<ul>
 				<?php foreach($arrNodes as $value): ?>
@@ -173,42 +190,154 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrEdges['directed'])): ?>
-			<section class="col-xs-4" id="direct-edge">
-				<h2>Directed Edges</h2>
+			<section class="col-xs-2" id="direct-cut">
+				<h2>Cuts <small>Direct</small></h2>
 				<ul>
 				<?php foreach($arrEdges['directed'] as $value): ?>
 					<li><?php echo $value; ?></li>
 				<?php endforeach; ?>
 				</ul>
 			</section>
+			<section class="col-xs-3" id="direct-edge">
+				<h2>Edges <small>Direct</small></h2>
+				<?php 
+					$arrList = array();
+					foreach($arrEdges['directed'] as $value) {
+						$parts =str_split($value,1);
+						if(!isset($arrList[$parts[1]])) {
+							$arrList[$parts[1]] = array();
+						}
+
+						$arrList[$parts[1]][] = $parts[0];
+					}
+				?>
+				<ul>
+				<?php foreach($arrList as $letter => $array): ?>
+					<li><strong><?php echo $letter; ?>: </strong> <?php echo implode(', ',$array); ?></li>
+				<?php endforeach; ?>
+				</ul>
+			</section>
 			<?php endif; ?>
 			
 			<?php if(!empty($arrEdges['indirected'])): ?>
-			<section class="col-xs-4" id="direct-edge">
-				<h2>Indirected Edges</h2>
+			<section class="col-xs-2" id="indirect-cut">
+				<h2>Cuts <small>Indirect</small></h2>
 				<ul>
 				<?php foreach($arrEdges['indirected'] as $value): ?>
 					<li><?php echo $value; ?></li>
 				<?php endforeach; ?>
 				</ul>
 			</section>
+			<section class="col-xs-3" id="indirect-edge">
+				<h2>Edges <small>Indirect</small></h2>
+				<?php 
+                                        $arrList = array();
+                                        foreach($arrEdges['indirected'] as $value) {
+                                                $parts = str_split($value,1);
+                                                if(!isset($arrList[$parts[1]])) {
+                                                        $arrList[$parts[1]] = array();
+                                                }
+
+						if(!isset($arrList[$parts[0]])) {
+                                                        $arrList[$parts[0]] = array();
+                                                }
+
+                                                $arrList[$parts[1]][] = $parts[0];
+						$arrList[$parts[0]][] = $parts[1];
+                                        }
+                                ?>
+                                <ul>
+                                <?php foreach($arrList as $letter => $array): ?>
+                                        <li><strong><?php echo $letter; ?>: </strong> <?php echo implode(', ',$array); ?></li>
+                                <?php endforeach; ?>
+			</section>
 			<?php endif; ?>
-			
-			<form method="POST">
-				<?php if(!empty($arrError)): ?>
-					<div class="alert alert-danger" role="alert"><?php echo implode('<br />',$arrError); ?></div>
-				<?php endif; ?>
-				
-				<div class="col-xs-12">
-					<label for="graph" class="col-xs-12">Input Sets</label>
-					<textarea class="col-xs-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
+		
+			<section class="col-xs-12">	
+				<form method="POST">
+					<?php if(!empty($arrError)): ?>
+						<div class="alert alert-danger" role="alert"><?php echo implode('<br />',$arrError); ?></div>
+					<?php endif; ?>
+					
+					<div class="col-xs-12">
+						<label for="graph" class="col-xs-12">Input Sets</label>
+						<textarea class="col-xs-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
+					</div>
+					<div class="col-xs-12">&nbsp;</div>
+					<div class="col-xs-12">
+						<input type="submit" class="btn btn-primary pull-right" />
+						<span class="help-block">Sample:<br />A B<br />C D</span> 
+					</div>
+				</form>
+			</section>
+
+			<section class="col-xs-12">
+				<ul class="nav nav-tabs" role="tablist" id="tabs">
+					<li class="active"><a href="#changelog" role="tab" data-toggle="tab">Changelog</a></li>
+					<li><a href="#about" role="tab" data-toggle="tab">About Adjacency</a></li>
+					<li><a href="#terms" role="tab" data-toggle="tab">Terms</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="tab-pane active" id="changelog">
+						<ul>
+							<li>
+								<strong>2014-10-22</strong>
+								<ul>
+									<li>Added tabset</li>
+									<li>Added Cut and Edge Columns</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-pane" id="about">
+						<h2>Adjacency List representation of graphs</h2>
+						<ul>
+							<li>Array of nodes</li>
+							<li>Array of edges</li>
+							<li>each edge points to its endpoints</li>
+							<li>each node points to edges incident on it</li>
+						</ul>
+					</div>
+					<div class="tab-pane" id="terms">
+						<p>Last updated: October 22, 2014</p>
+
+			                        <p>Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the http://adjacency.superlunchvote.com/ website (the "Service") operated by Adjancency List And Matrix ("us", "we", or "our").</p>
+
+                        			<p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
+
+			                        <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</p>
+
+
+			                        <p><strong>Links To Other Web Sites</strong></p>
+
+			                        <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by Adjancency List And Matrix.</p>
+
+			                        <p>Adjancency List And Matrix has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that Adjancency List And Matrix shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
+
+			                        <p>We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.</p>
+
+
+                        			<p><strong>Governing Law</strong></p>
+
+			                        <p>These Terms shall be governed and construed in accordance with the laws of California, United States, without regard to its conflict of law provisions.</p>
+
+			                        <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</p>
+
+			                        <p><strong>Changes</strong></p>
+
+			                        <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+
+			                        <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
+
+			                        <p style="font-size: 85%; color: #999;">With permission from TermsFeed.com</p>
+
+			                        <p><strong>Contact Us</strong></p>
+
+			                        <p>If you have any questions about these Terms, please contact us.</p>
+					</div>
 				</div>
-				<div class="col-xs-12">&nbsp;</div>
-				<div class="col-xs-12">
-					<input type="submit" class="btn btn-primary pull-right" />
-					<span class="help-block">Sample:<br />A B<br />C D</span> 
-				</div>
-			</form>
+			</section>
 		</div>		
 	</body>
 </html>

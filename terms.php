@@ -33,7 +33,7 @@
 		    <div class="navbar-header">
 				<a class="navbar-brand" href="/">Adjacency List and Matrix</a>
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/terms.php">Term of Use</a></li>
+					<li class="active"><a href="/terms.php">Terms of Use</a></li>
 					<li><a href="https://github.com/drthomas21/CS312">Fork On GitHub</a></li>
 				</ul>
 			</div><!-- /.container-fluid -->
