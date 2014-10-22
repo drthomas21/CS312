@@ -157,7 +157,7 @@
 		<div class="container-fluid">
 			<h1 class="page-header">CS312: Adjacency List and Matrix</h1>
 			<?php if(!empty($arrMatrix)): ?>
-			<section class="col-xs-12" id="matrix">
+			<section class="col-lg-12" id="matrix">
 				<h2>Matrix</h2>
 				<table class='table table-bordered'>
 					<?php foreach($arrMatrix as $count => $row): ?>
@@ -179,7 +179,7 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrNodes)): ?>
-			<section class="col-xs-2" id="nodes">
+			<section class="col-lg-2" id="nodes">
 				<h2>Nodes</h2>
 				<ul>
 				<?php foreach($arrNodes as $value): ?>
@@ -190,7 +190,7 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrEdges['directed'])): ?>
-			<section class="col-xs-2" id="direct-cut">
+			<section class="col-lg-2" id="direct-cut">
 				<h2>Cuts <small>Direct</small></h2>
 				<ul>
 				<?php foreach($arrEdges['directed'] as $value): ?>
@@ -198,7 +198,7 @@
 				<?php endforeach; ?>
 				</ul>
 			</section>
-			<section class="col-xs-3" id="direct-edge">
+			<section class="col-lg-3" id="direct-edge">
 				<h2>Edges <small>Direct</small></h2>
 				<?php 
 					$arrList = array();
@@ -220,7 +220,7 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrEdges['indirected'])): ?>
-			<section class="col-xs-2" id="indirect-cut">
+			<section class="col-lg-2" id="indirect-cut">
 				<h2>Cuts <small>Indirect</small></h2>
 				<ul>
 				<?php foreach($arrEdges['indirected'] as $value): ?>
@@ -228,7 +228,7 @@
 				<?php endforeach; ?>
 				</ul>
 			</section>
-			<section class="col-xs-3" id="indirect-edge">
+			<section class="col-lg-3" id="indirect-edge">
 				<h2>Edges <small>Indirect</small></h2>
 				<?php 
                                         $arrList = array();
@@ -253,25 +253,25 @@
 			</section>
 			<?php endif; ?>
 		
-			<section class="col-xs-12">	
+			<section class="col-lg-12">	
 				<form method="POST">
 					<?php if(!empty($arrError)): ?>
 						<div class="alert alert-danger" role="alert"><?php echo implode('<br />',$arrError); ?></div>
 					<?php endif; ?>
 					
-					<div class="col-xs-12">
-						<label for="graph" class="col-xs-12">Input Sets</label>
-						<textarea class="col-xs-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
+					<div class="col-lg-12">
+						<label for="graph" class="col-lg-12">Input Sets</label>
+						<textarea class="col-lg-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
 					</div>
-					<div class="col-xs-12">&nbsp;</div>
-					<div class="col-xs-12">
+					<div class="col-lg-12">&nbsp;</div>
+					<div class="col-lg-12">
 						<input type="submit" class="btn btn-primary pull-right" />
 						<span class="help-block">Sample:<br />A B<br />C D</span> 
 					</div>
 				</form>
 			</section>
 
-			<section class="col-xs-12">
+			<section class="col-lg-12">
 				<ul class="nav nav-tabs" role="tablist" id="tabs">
 					<li class="active"><a href="#changelog" role="tab" data-toggle="tab">Changelog</a></li>
 					<li><a href="#about" role="tab" data-toggle="tab">About Adjacency</a></li>
@@ -297,6 +297,14 @@
 							<li>Array of edges</li>
 							<li>each edge points to its endpoints</li>
 							<li>each node points to edges incident on it</li>
+						</ul>
+						<h2>Info: Directed Graphs</h2>
+						<ul>
+							<li>AB is not the same as BA</li>
+						</ul>
+						<h2>Info Indirected Graphs</h2>
+						<ul>
+							<li>AB is the same as BA</li>
 						</ul>
 					</div>
 					<div class="tab-pane" id="terms">
