@@ -1,4 +1,4 @@
-CS312: Adjacency Lis And Matrix
+CS312: Adjacency List And Matrix
 ===============================
 
 This is a simple PHP program to exercise
