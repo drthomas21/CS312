@@ -7,6 +7,7 @@
 	$arrEdges = array();
 	$arrMatrix = array();
 	$arrError = array();
+	$arrBSDLayer = array();
 	
 	function dumpGraph(array $arGraph) {
 		foreach($arGraph as $row => $arLine) {
@@ -105,6 +106,14 @@
 			}			
 		}
 	}
+	
+	//Do BSD Search
+	if(!empty($arrNodes)) {
+		$BSDLayer = new BSDSearch($arrNodes);
+		$arrBSDLayer = $BSDLayer->runSearch();
+	}
+	
+	
 ?>
 <html>
 	<head>
@@ -176,7 +185,7 @@
 			<?php endif; ?>
 			
 			<?php if(!empty($arrNodes)): ?>
-			<section class="col-lg-3" id="nodes">
+			<section class="col-lg-2" id="nodes">
 				<h2>Nodes</h2>
 				<ul>
 				<?php foreach($arrNodes as $Node): ?>
@@ -187,7 +196,7 @@
 			<?php endif; ?>
 			
 			<?php if($_POST['type'] == 'direct' && !empty($arrEdges)): ?>
-			<section class="col-lg-3" id="direct-cut">
+			<section class="col-lg-2" id="direct-cut">
 				<h2>Cuts <small>Direct</small></h2>
 				<ul>
 				<?php foreach($arrEdges as $Edge): ?>
@@ -195,7 +204,7 @@
 				<?php endforeach; ?>
 				</ul>
 			</section>
-			<section class="col-lg-3" id="direct-edge">
+			<section class="col-lg-2" id="direct-edge">
 				<h2>Edges <small>Direct</small></h2>
 				<?php 
 					$arrList = array();
@@ -218,7 +227,7 @@
 			<?php endif; ?>
 			
 			<?php if($_POST['type'] == 'indirect' && !empty($arrEdges)): ?>
-			<section class="col-lg-3" id="indirect-cut">
+			<section class="col-lg-2" id="indirect-cut">
 				<h2>Cuts <small>Indirect</small></h2>
 				<ul>
 				<?php foreach($arrEdges as $Edge): ?>
@@ -226,7 +235,7 @@
 				<?php endforeach; ?>
 				</ul>
 			</section>
-			<section class="col-lg-3" id="indirect-edge">
+			<section class="col-lg-2" id="indirect-edge">
 				<h2>Edges <small>Indirect</small></h2>
 				<?php 
 					$arrList = array();
@@ -243,6 +252,28 @@
 				<ul>
 				<?php foreach($arrList as $letter => $array): ?>
 					<li><strong><?php echo $letter; ?>: </strong> <?php echo implode(', ',$array); ?></li>
+				<?php endforeach; ?>
+				</ul>
+			</section>
+			<?php endif; ?>
+			
+			<?php if(!empty($arrBSDLayer)):?>
+			<section class="col-lg-3" id="bfs">
+				<h2>BFS <small>Breadth-First Search</small></h2>
+				<ul>
+				<?php foreach($arrBSDLayer as $layer => $row): ?>
+					<li><strong>Layer <?php echo $layer; ?>:</strong> <?php echo implode(', ',$row); ?></li>
+				<?php endforeach; ?>
+				</ul>
+			</section>
+			<?php endif; ?>
+			
+			<?php if(!empty($arrDFSLayer)):?>
+			<section class="col-lg-3" id="dfs">
+				<h2>DFS <small>Depth-First Search</small></h2>
+				<ul>
+				<?php foreach($arrDFSLayer as $layer => $row): ?>
+					<li><strong>Layer <?php echo $layer; ?>:</strong> <?php echo implode(', ',$row); ?></li>
 				<?php endforeach; ?>
 				</ul>
 			</section>
@@ -285,6 +316,7 @@
 								<strong>2014-10-27</strong>
 								<ul>
 									<li>Added Node and Edge classes</li>
+									<li>Added Breath-First Search</li>
 								</ul>
 							</li>
 							<li>
