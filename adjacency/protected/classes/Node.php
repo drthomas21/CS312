@@ -52,11 +52,33 @@ class Node {
 		return $this->arrEdges;
 	}
 	
+	/**
+	 * For directed graphs, returns only tail nodes
+	 * @return Array<Node> $nodes
+	 */
 	public function getNeighborNodes() {
 		$arrNodes = array();
 		if(!empty($this->arrEdges)) {
 			foreach($this->arrEdges as $Edge) {
 				$temp = $Edge->getNextNode($this);
+				if(!empty($temp)) {
+					$arrNodes[] = $temp;
+				}
+			}
+		}
+		
+		return $arrNodes;
+	}
+	
+	/**
+	 * 
+	 * @return Array<Node> $nodes
+	 */
+	public function getConnectedNodes() {
+		$arrNodes = array();
+		if(!empty($this->arrEdges)) {
+			foreach($this->arrEdges as $Edge) {
+				$temp = $Edge->getOtherNode($this);
 				if(!empty($temp)) {
 					$arrNodes[] = $temp;
 				}

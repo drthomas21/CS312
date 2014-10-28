@@ -17,13 +17,59 @@ class BSDSearch extends Search {
 	public function runSearch() {
 		$count = 0;
 		$this->arrExplored = array();
-		$this->arrLayers[$count] = array($this->arrNodes[0]->getName());
+		$this->arrLayers[] = array($this->arrNodes[0]->getName());
 		$this->arrExplored[] = $this->arrNodes[0]->getName();
 		$arrQue = $this->arrNodes[0]->getNeighborNodes();
+		$arrEdges = $this->arrNodes[0]->getEdges();
+		if($arrEdges[0] instanceof IndirectEdge) {
+			$this->doIndirectEdgeSearch($arrQue, $count);
+		} else {
+			$this->doDirectEdgeSearch($arrQue, $count);
+		}
 		
+		return $this->arrLayers;
+	}
+	
+	protected function doDirectEdgeSearch($arrQue, $count) {
 		while(!empty($arrQue)) {
 			$Node = array_shift($arrQue);
-			if(!in_array($Node->getName(),$this->arrExplored)) {				
+			if(!in_array($Node->getName(),$this->arrExplored)) {
+				$arrNodes = $Node->getConnectedNodes();
+				$arrTails = $Node->getNeighborNodes();
+				if(!empty($arrNodes)) {
+					$found = false;
+					for($i = 0; $i < count($arrNodes); $i++) {
+						$Item = $arrNodes[$i];
+						if(!$found && in_array($Item->getName(),$this->arrLayers[$count])){
+							$this->arrLayers[$count+1][] = $Node->getName();
+							$found = true;
+						}
+					}
+					if(!$found) {
+						$count += 1;
+						$this->arrLayers[$count+1] = array();
+						$this->arrLayers[$count+1][] = $Node->getName();
+					}
+				}
+				
+				if(!empty($arrTails)) {
+					for($i = 0; $i < count($arrTails); $i++) {
+						$Item = $arrTails[$i];
+				
+						if(!in_array($Item->getName(),$this->arrExplored)) {
+							$arrQue[] = $Item;
+						}
+					}
+				}
+				$this->arrExplored[] = $Node->getName();
+			}
+		}
+	}
+	
+	protected function doIndirectEdgeSearch($arrQue, $count) {
+		while(!empty($arrQue)) {
+			$Node = array_shift($arrQue);
+			if(!in_array($Node->getName(),$this->arrExplored)) {
 				$arrNeigh = $Node->getNeighborNodes();
 				if(!empty($arrNeigh)) {
 					$found = false;
@@ -33,7 +79,7 @@ class BSDSearch extends Search {
 							$this->arrLayers[$count+1][] = $Node->getName();
 							$found = true;
 						}
-						
+		
 						if(!in_array($Item->getName(),$this->arrExplored)) {
 							$arrQue[] = $Item;
 						}
@@ -45,10 +91,8 @@ class BSDSearch extends Search {
 					}
 				}
 				$this->arrExplored[] = $Node->getName();
-			} 
+			}
 		}
-		
-		return $this->arrLayers;
 	}
 }
 
