@@ -43,8 +43,6 @@ class BSDSearch extends Search {
 						$this->arrLayers[$count+1] = array();
 						$this->arrLayers[$count+1][] = $Node->getName();
 					}
-				} else {
-					throw new BSDSearchNoNeighborException($Node);
 				}
 				$this->arrExplored[] = $Node->getName();
 			} 
