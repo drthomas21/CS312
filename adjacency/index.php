@@ -282,6 +282,12 @@
 					<div class="tab-pane active" id="changelog">
 						<ul>
 							<li>
+								<strong>2014-10-27</strong>
+								<ul>
+									<li>Added Node and Edge classes</li>
+								</ul>
+							</li>
+							<li>
 								<strong>2014-10-22</strong>
 								<ul>
 									<li>Added tabset</li>
