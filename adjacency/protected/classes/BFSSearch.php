@@ -6,7 +6,7 @@
  * @property Array<string> $arrExplored
  * @property Array<Array<Node>> $arrLayers
  */
-class BSDSearch extends Search {
+class BFSSearch extends Search {
 	private $arrExplored = array();
 	private $arrLayers = array();
 	
@@ -93,11 +93,5 @@ class BSDSearch extends Search {
 				$this->arrExplored[] = $Node->getName();
 			}
 		}
-	}
-}
-
-class BSDSearchNoNeighborException extends Exception {
-	public function __construct(Node $node, $code = 1, $previous = NULL) {
-		parent::__construct("Node {$Node->getName()} does not have any neighbors", $code, $previous);
 	}
 }

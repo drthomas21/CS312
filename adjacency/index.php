@@ -7,7 +7,8 @@
 	$arrEdges = array();
 	$arrMatrix = array();
 	$arrError = array();
-	$arrBSDLayer = array();
+	$arrBSFLayer = array();
+	$arrDFSLayer = array();
 	
 	function dumpGraph(array $arGraph) {
 		foreach($arGraph as $row => $arLine) {
@@ -109,8 +110,13 @@
 	
 	//Do BSD Search
 	if(!empty($arrNodes)) {
-		$BSDLayer = new BSDSearch($arrNodes);
-		$arrBSDLayer = $BSDLayer->runSearch();
+		$BFSLayer = new BFSSearch($arrNodes);
+		$arrBSFLayer = $BFSLayer->runSearch();
+	}
+
+	if(!empty($arrNodes)) {
+		$DFSLayer = new DFSSearch($arrNodes);
+		$arrDFSLayer = $DFSLayer->runSearch();
 	}
 	
 	
@@ -257,11 +263,11 @@
 			</section>
 			<?php endif; ?>
 			
-			<?php if(!empty($arrBSDLayer)):?>
+			<?php if(!empty($arrBSFLayer)):?>
 			<section class="col-lg-3" id="bfs">
 				<h2>BFS <small>Breadth-First Search</small></h2>
 				<ul>
-				<?php foreach($arrBSDLayer as $layer => $row): ?>
+				<?php foreach($arrBSFLayer as $layer => $row): ?>
 					<li><strong>Layer <?php echo $layer; ?>:</strong> <?php echo implode(', ',$row); ?></li>
 				<?php endforeach; ?>
 				</ul>
@@ -273,7 +279,15 @@
 				<h2>DFS <small>Depth-First Search</small></h2>
 				<ul>
 				<?php foreach($arrDFSLayer as $layer => $row): ?>
-					<li><strong>Layer <?php echo $layer; ?>:</strong> <?php echo implode(', ',$row); ?></li>
+					<li>
+						<strong>Layer <?php echo $layer; ?>:</strong> 
+						<?php if($row[1] == NULL): ?>
+						Starting from root
+						<?php else: ?>
+						Referred By <?php echo $row[1]->getName(); ?>
+						<?php endif; ?>
+						-&gt; <?php echo $row[0]->getName(); ?>
+					</li>
 				<?php endforeach; ?>
 				</ul>
 			</section>
