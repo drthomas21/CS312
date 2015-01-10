@@ -201,7 +201,7 @@
 			</section>
 			<?php endif; ?>
 			
-			<?php if($_POST['type'] == 'direct' && !empty($arrEdges)): ?>
+			<?php if(array_key_exists('type',$_POST) && $_POST['type'] == 'direct' && !empty($arrEdges)): ?>
 			<section class="col-lg-2" id="direct-cut">
 				<h2>Cuts <small>Direct</small></h2>
 				<ul>
@@ -232,7 +232,7 @@
 			</section>
 			<?php endif; ?>
 			
-			<?php if($_POST['type'] == 'indirect' && !empty($arrEdges)): ?>
+			<?php if(array_key_exists('type',$_POST) && $_POST['type'] == 'indirect' && !empty($arrEdges)): ?>
 			<section class="col-lg-2" id="indirect-cut">
 				<h2>Cuts <small>Indirect</small></h2>
 				<ul>
@@ -301,12 +301,12 @@
 					
 					<div class="form-group">
 						<label class="col-lg-12">Graph Type</label>
-						<label for="type-direct" class="col-lg-1 text-right">Direct</label><input type="radio" name="type" id="type-direct" value="direct" class="col-lg-1 text-left" <?php echo $_POST['type'] == 'direct' ? "checked" : ""; ?>/>
-						<label for="type-indirect" class="col-lg-1 text-right">Indirect</label><input type="radio" name="type" id="type-indirect" value="indirect" class="col-lg-1 text-left" <?php echo $_POST['type'] == 'indirect' ? "checked" : ""; ?>/>
+						<label for="type-direct" class="col-lg-1 text-right">Direct</label><input type="radio" name="type" id="type-direct" value="direct" class="col-lg-1 text-left" <?php echo (array_key_exists('type',$_POST) && $_POST['type'] == 'direct') ? "checked" : ""; ?>/>
+						<label for="type-indirect" class="col-lg-1 text-right">Indirect</label><input type="radio" name="type" id="type-indirect" value="indirect" class="col-lg-1 text-left" <?php echo (array_key_exists('type',$_POST) && $_POST['type'] == 'indirect') ? "checked" : ""; ?>/>
 					</div>
 					<div class="form-group">
 						<label for="graph" class="col-lg-12">Input Sets</label>
-						<textarea class="col-lg-12" name="graph" id="graph" style="height: 150px"><?php print_r($_POST['graph']); ?></textarea>					
+						<textarea class="col-lg-12" name="graph" id="graph" style="height: 150px"><?php if(array_key_exists('graph',$_POST)) { print_r($_POST['graph']); } ?></textarea>					
 					</div>
 					<div class="col-lg-12">&nbsp;</div>
 					<div class="col-lg-12">
